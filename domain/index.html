@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Debt Collecting Qualifications</title>
+  <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
+  <style>
+    body, html { margin:0; padding:0; height:100%; font-family: 'Georgia', serif; overflow:hidden; }
+    .screen { position:absolute; width:100%; height:100%; display:none; flex-direction:column; align-items:center; justify-content:center; }
+    .active { display:flex !important; }
+    .bg { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-1; }
+    .crest { position:absolute; top:20px; left:20px; width:120px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.4); }
+    .mono { position:absolute; top:20px; left:20px; width:100px; border-radius:50%; box-shadow:0 4px 12px rgba(0,0,0,0.4); }
+    h1 { font-size:4.5rem; color:#fff; text-shadow: 3px 3px 10px #000; margin:0 0 100px 0; }
+    .btn {
+      padding:18px 60px; font-size:1.8rem; background:#8B4513; color:#FFD700; border:none;
+      border-radius:12px; cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,0.5);
+      transition:0.3s; margin-top:80px;
+    }
+    .btn:hover { background:#A0522D; transform:scale(1.05); }
+    .module-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:30px; padding:40px; max-width:1200px; }
+    .module-box {
+      background:#f8f0e0; border:4px solid #8B4513; border-radius:15px; padding:40px; text-align:center;
+      font-size:1.8rem; color:#444; box-shadow:0 10px 20px rgba(0,0,0,0.3);
+    }
+    .acquire { background:#FFD700; color:#8B4513; font-weight:bold; margin-top:20px; }
+    iframe { width:90%; height:80%; border:none; }
+  </style>
+</head>
+<body>
+
+  <!-- Screen 1 - Welcome -->
+  <div id="s1" class="screen active">
+    <img src="assets/images/school.png" class="bg" alt="">
+    <img src="assets/images/crest.jpg" class="crest" alt="Crest">
+    <h1>Debt Collecting Qualifications</h1>
+    <button class="btn" onclick="show('s2')">Synopsis</button>
+  </div>
+
+  <!-- Screen 2 - Synopsis PDF + Video Button -->
+  <div id="s2" class="screen">
+    <iframe src="assets/doc/synopsis.png"></iframe>
+    <img src="assets/images/monogram.jpg" class="mono" alt="Monogram">
+    <button class="btn" onclick="playVideo()">Watch Introductory Video</button>
+    <button class="btn" onclick="show('s3')" style="margin-top:20px;">Modules</button>
+  </div>
+
+  <!-- Screen 3 - Module Selection -->
+  <div id="s3" class="screen" style="background:#0a0a0a;">
+    <img src="assets/images/monogram.jpg" class="mono" alt="Monogram">
+    <h1 style="color:#FFD700; margin-bottom:40px;">Choose Your Module</h1>
+    <div class="module-grid">
+      <div class="module-box">
+        Module One<br><small>Introduction to Debt Recovery</small>
+        <button class="btn acquire" onclick="acquire(1)">Acquire</button>
+      </div>
+      <div class="module-box">
+        Module Two<br><small>Legal Framework</small>
+        <button class="btn acquire" onclick="acquire(2)">Acquire</button>
+      </div>
+      <!-- Duplicate the block above for up to 30 modules later -->
+    </div>
+  </div>
+
+  <!-- Screen 4 - Dummy PayPal -->
+  <div id="s4" class="screen" style="background:#003087; color:white;">
+    <h1>Secure Payment – PayPal</h1>
+    <div style="background:white;color:#000;padding:40px;border-radius:15px;max-width:500px;">
+      <h2>Debt Collecting Qualifications – Module <span id="modNum">1</span></h2>
+      <p>Price: $149 USD</p>
+      <button class="btn" style="background:#0070BA;color:white;" onclick="paymentSuccess()">Pay with PayPal (Dummy)</button>
+      <p style="margin-top:30px;"><small>This is a simulation. Click above to continue.</small></p>
+    </div>
+  </div>
+
+  <!-- Screen 5 - Test for Module 1 (example) -->
+  <div id="s5" class="screen" style="background:#111;color:#eee;">
+    <img src="assets/images/monogram.jpg" class="mono" alt="">
+    <h1>Module 1 Test</h1>
+    <div style="max-width:800px;width:90%;">
+      <p><strong>Q1:</strong> What is the primary legislation governing debt collection in your jurisdiction?</p>
+      <label><input type="radio" name="q1" value="a"> A) Fair Debt Collection Practices Act</label><br><br>
+      <label><input type="radio" name="q1" value="b"> B) Consumer Credit Act</label><br><br>
+      <label><input type="radio" name="q1" value="c"> C) Bankruptcy Code</label><br><br>
+
+      <p><strong>Q2:</strong> When may a collector contact a debtor?</p>
+      <label><input type="radio" name="q2" value="correct"> Between 8am and 9pm</label><br><br>
+      <label><input type="radio" name="q2" value="wrong"> Anytime</label><br><br>
+
+      <!-- Add more questions (total 10–20) -->
+
+      <button class="btn" onclick="checkTest()" style="margin-top:40px;">Submit Test</button>
+      <p id="result" style="font-size:1.5rem;margin-top:20px;"></p>
+    </div>
+  </div>
+
+  <!-- Fullscreen Video Overlay -->
+  <div id="videoOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:9999;justify-content:center;align-items:center;">
+    <video controls autoplay width="90%" style="max-height:90vh;">
+      <audio autoplay loop>
+      <source src="assets/music/figaro.mp3" type="audio/mp3">
+    </audio>
+      <source src="assets/video/song.mp4" type="video/mp4">
+    </video>
+        <button class="btn" onclick="document.getElementById('videoOverlay').style.display='none'" style="position:absolute;top:20px;right:20px;">Close</button>
+  </div>
+
+<script>
+  let currentModule = 1;
+
+  function show(id) { 
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); 
+    document.getElementById(id).classList.add('active'); 
+  }
+  function playVideo() { document.getElementById('videoOverlay').style.display='flex'; }
+  function acquire(num) { 
+    currentModule = num; 
+    document.getElementById('modNum').textContent = num; 
+    show('s4'); 
+  }
+  function paymentSuccess() { show('s5'); }
+
+  function checkTest() {
+    // Dummy scoring – in real version count correct answers
+    let score = 85; // simulate 85%
+    if (score >= 80) {
+      document.getElementById('result').innerHTML = `<span style="color:#0f0;">PASS! (${score}%)<br><br>
+        <button class="btn" onclick="downloadKey()">Download Access Key for Module ${currentModule + 1}</button><br><br>
+        ${currentModule === 30 ? `<button class="btn" onclick="issueCertificate()" style="background:#FFD700;color:#000;">Download Your Certificate</button>` : ''}`;
+    } else {
+      document.getElementById('result').innerHTML = `<span style="color:#f66;">Failed (${score}%). You need 80% to pass.</span>`;
+    }
+  }
+
+  function downloadKey() {
+    const key = "DCM-" + Date.now() + "-KEY" + currentModule;
+    const blob = new Blob([key], {type:'text/plain'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `Module_${currentModule+1}_Key.txt`; a.click();
+  }
+
+  function issueCertificate() {
+    const name = prompt("Congratulations! Please enter your full name for the certificate:");
+    if (name) {
+      alert("Certificate generated! (In real version we overlay name on PNG and trigger download)");
+      // Future: use canvas to draw name on certificate.png and download
+    }
+  }
+</script>
+</body>
+</html>
